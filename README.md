@@ -51,6 +51,7 @@ SERVERS diatas akan menunjuk ke IP dari Jipangu yaitu ```192.205.2.4``` sebagai 
 
 jika diterapkan pada script akan menjadi :
 
+[![Whats-App-Image-2021-11-11-at-19-39-53.jpg](https://i.postimg.cc/B6CVvm9v/Whats-App-Image-2021-11-11-at-19-39-53.jpg)](https://postimg.cc/r0KJnCp6)
 
 setelah itu kita akan melakukan restart pada DHCP relay dengan menggunakan command berikut :
 
@@ -104,8 +105,19 @@ iface eth0 inet dhcp
 
 Untuk mengecek apakah sudah benar, kita bisa melihat ip pada salah satu Client, contoh disini adalah Loguetown yang terhubung pada Switch 1 :
 
+[![Whats-App-Image-2021-11-11-at-19-32-33.jpg](https://i.postimg.cc/ZKvS5hRs/Whats-App-Image-2021-11-11-at-19-32-33.jpg)](https://postimg.cc/vcyj0k55)
 
+[![Whats-App-Image-2021-11-11-at-19-34-25.jpg](https://i.postimg.cc/mr8qSdkF/Whats-App-Image-2021-11-11-at-19-34-25.jpg)](https://postimg.cc/kVRfJvxn)
 
+Pada gambar tersebut, dapat dilihat bahwa Loguetown dipinjami IP ```192.205.1.22``` , ini masih sesuai dengan range IP pada konfigurasi Switch 1 yaitu 192.205.1.20 - 192.205.1.99 dan 192.205.1.150 - 192.205.1.169, kemudian dapat dilihat juga bahwa ```default-lease-time``` nya adalah 360 second atau 6 menit.
+
+Kemudian kita juga bisa melihat pada client di Switch 3, contoh disini adalah TottoLand :
+
+[![Whats-App-Image-2021-11-11-at-19-37-29.jpg](https://i.postimg.cc/zBhQ1qpT/Whats-App-Image-2021-11-11-at-19-37-29.jpg)](https://postimg.cc/ftwCcnGb)
+
+[![Whats-App-Image-2021-11-11-at-19-38-26.jpg](https://i.postimg.cc/CMj2PLRg/Whats-App-Image-2021-11-11-at-19-38-26.jpg)](https://postimg.cc/bdwLdP0C)
+
+Pada gambar tersebut, dapat dilihat bahwa TottoLand dipinjami IP ```192.205.3.32```, ini masih sesuai dengan range IP pada konfigurasi Switch 3 yaitu 192.205.3.30 - 192.205.3.50, kemudian dengan ```default-time-lease``` nya adalah 720 second atau 12 menit.
 
 Untuk lebih jelasnya bagian mana saja yang menjadi jawaban setiap nomornya, akan dijabarkan dibawah.
 
@@ -178,6 +190,11 @@ hwaddress ether be:98:0a:07:47:46
 
 Untuk mengecek apakah sudah benar, kita bisa melihat pada Skypie apakah IP nya sekarang adalah ```192.205.3.69```, bisa dilihat pada gambar berikut :
 
+[![Whats-App-Image-2021-11-11-at-19-59-40.jpg](https://i.postimg.cc/YSqDj1R2/Whats-App-Image-2021-11-11-at-19-59-40.jpg)](https://postimg.cc/0zF0BKhh)
+
+[![Whats-App-Image-2021-11-11-at-20-01-26.jpg](https://i.postimg.cc/bYTTSGGs/Whats-App-Image-2021-11-11-at-20-01-26.jpg)](https://postimg.cc/K41Ld8D2)
+
+Pada gambar tersebut, dapat dilihat bahwa Skypie selalu dipinjami IP yang sama oleh DHCP server, yaitu ```192.205.3.69```, maka konfigurasinya sudah benar.
 
 
 ### Soal 8
