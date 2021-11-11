@@ -160,11 +160,25 @@ max-lease-time 7200;
 ### Soal 7
 Luffy dan Zoro berencana menjadikan Skypie sebagai server untuk jual beli kapal yang dimilikinya dengan alamat IP yang tetap dengan IP 192.205.3.69 
 
-Untuk membuat Fixed Address pada Skypie, pertama kita akan melakukan konfigurasi pada server DHCPSkypie dengan membuka file ```/etc/network/interfaces``` dan menambahkan :
+Untuk membuat Fixed Address pada Skypie, pertama kita akan melakukan konfigurasi pada DHCP server, yaitu Jipangu dengan cara membuka file ```/etc/dhcp/dhcpd.conf``` dan menambahkan : 
+
+```
+host Skypie {
+    hardware ethernet be:98:0a:07:47:46;
+    fixed-address 192.205.3.69 ;
+} 
+``` 
+dan melakukan restart pada isc-dhcp dengan command ```service isc-dhcp-server restart```
+
+Kemudian, kita akan melakukan konfigurasi pada Skypie dengan membuka file ```/etc/network/interfaces``` dan menambahkan :
 
 ```
 hwaddress ether be:98:0a:07:47:46
 ```
+
+Untuk mengecek apakah sudah benar, kita bisa melihat pada Skypie apakah IP nya sekarang adalah ```192.205.3.69```, bisa dilihat pada gambar berikut :
+
+
 
 ### Soal 8
 Pada Loguetown, proxy harus bisa diakses dengan nama jualbelikapal.e11.com dengan port yang digunakan adalah 5000
