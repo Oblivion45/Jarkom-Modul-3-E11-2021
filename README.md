@@ -212,5 +212,24 @@ Agar transaksi bisa lebih fokus berjalan, maka dilakukan redirect website agar m
 ### Soal 12
 Saatnya berlayar! Luffy dan Zoro akhirnya memutuskan untuk berlayar untuk mencari harta karun di super.franky.e11.com. Tugas pencarian dibagi menjadi dua misi, Luffy bertugas untuk mendapatkan gambar (.png, .jpg), sedangkan Zoro mendapatkan sisanya. Karena Luffy orangnya sangat teliti untuk mencari harta karun, ketika ia berhasil mendapatkan gambar, ia mendapatkan gambar dan melihatnya dengan kecepatan 10 kbps
 
+pada soal nomor 12 kita mendeklarasikan luffy menggunakan regex untuk mendownload file .png dan .jpg lalu kita menambahkan beberapa konfigurasi didalam ```/etc/squid/bandwidth.conf``` untuk membuat delay pool sebanyak dua yaitu luffy dan zoro , lalu kita menggunakan delay parameter untuk membatasi kecepatan download file .jpg dan .png menjadi 10000/10000 dimana dibatasi menjadi 10 kbps,sedangkan untuk zoro tidak dilakukan pembatasan kecepatan sehingga isi konfigurasi tersebut seperti berikut:
+
+![image](https://user-images.githubusercontent.com/77099292/141444302-f314bd16-2ba7-4127-9229-3e0a4bfc9996.png)
+
+dan hasilnya sebagai berikut :
+
+![image](https://user-images.githubusercontent.com/77099292/141444622-d3dce7e9-cb78-4100-8adf-cc919f03d043.png)
+
+
+
 ### Soal 13
 Sedangkan, Zoro yang sangat bersemangat untuk mencari harta karun, sehingga kecepatan kapal Zoro tidak dibatasi ketika sudah mendapatkan harta yang diinginkannya.
+
+sedangkan untuk zoro tidak dilakukan pembatasan kecepatan sehingga file akan langsung terdownload tanpa ada pembatasan kecepatan sama sekali untuk konfigurasi dilakukan bersamaan dengan luffy dikarenakan menggunakan delay pool sebanyak 2, untuk konfigurasinya sebagai berikut :
+
+![image](https://user-images.githubusercontent.com/77099292/141444873-b99e450d-a358-40ab-87bb-a9ad34cab082.png)
+
+dan untuk hasilnya sebagai berikut :
+
+![image](https://user-images.githubusercontent.com/77099292/141445172-3243cbdb-d3bf-4981-95fb-68ee0a173c71.png)
+
