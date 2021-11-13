@@ -23,9 +23,13 @@ Untuk membuat Jipangu menjadi DHCP server, kita perlu menginstall isc-dhcp-serve
 
 ```apt-get install isc-dhcp-server```
 
-dan untuk membuat Water7 menjadi Proxy Server, maka kita perlu menginstall squid3 pada server Water7 menggunakan command :
+Kemudian untuk langkah selanjutnya akan dilanjutkan pada nomor yang akan datang.
+
+Untuk membuat Water7 menjadi Proxy Server, maka kita perlu menginstall squid3 pada server Water7 menggunakan command :
 
 ```apt-get install squid```
+
+Untuk kelanjutannya akan ada pada nomor selanjutnya.
 
 ### Soal 2
 Foosha sebagai DHCP Relay.
