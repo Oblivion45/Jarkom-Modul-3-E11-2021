@@ -198,7 +198,12 @@ Pada gambar tersebut, dapat dilihat bahwa Skypie selalu dipinjami IP yang sama o
 
 
 ### Soal 8
-Pada Loguetown, proxy harus bisa diakses dengan nama jualbelikapal.e11.com dengan port yang digunakan adalah 5000
+Pada Loguetown, proxy harus bisa diakses dengan nama jualbelikapal.e11.com dengan port yang digunakan adalah 5000:
+
+Untuk Solusi dalam Hal diatas maka kita akan melakukan beberapa config sebagai berikut:
+
+#### Water7
+ 
 
 ### Soal 9
 Agar transaksi jual beli lebih aman dan pengguna website ada dua orang, proxy dipasang autentikasi user proxy dengan enkripsi MD5 dengan dua username, yaitu luffybelikapale11 dengan password luffy_e11 dan zorobelikapale11 dengan password zoro_yyy 
