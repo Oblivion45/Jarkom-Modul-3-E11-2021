@@ -217,28 +217,232 @@ echo 'nameserver 192.168.122.1' > /etc/resolv.conf
 apt-get update
 apt-get install squid -y
 apt-get install apache2-utils -y
-bash script.sh
-pass.sh
+```
 
+Sebelumnya kita harus melakukan backup konfigurasi default squid dengan command
+
+```
+mv /etc/squid/squid.conf /etc/squid/squid.conf.bak
 ```
 
 Selanjutnya yaitu dengan melakukan konfigurasi `squid` pada file `etc/squid/squid.conf` dengan sebagai berikut:
 ```
+http_port 5000
+visible_hostname jualbelikapal.e11.com
+http_access allow all
+```
+Untuk dapat menjalankan semua command tersebut maka dilakukan command
 
+`service squid restart`
 
+#### Enieslobby
+
+kita mengatur zone dengan command
+```
+ zone "jualbelikapal.e11.com" {
+        type master;
+        file "/etc/bind/kaizoku/jualbelikapal.e11.com";
+};
+```
+Kemudian pada melakukan command pada file `"/etc/bind/kaizoku/jualbelikapal.e11.com"` sebagai berikut
+```
+$TTL    604800
+@       IN      SOA     jualbelikapal.e11.com. root.jualbelikapal.e11.com. (
+                              2         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      jualbelikapal.e11.com.
+@       IN      A       192.205.2.3
+www     IN      CNAME   jualbelikapal.e11.com.
 ```
 
-Selanjutnya melakukan restart squid dengan `service squid restart`
- 
+Selanjutnya agar command dapat berjalan maka lakukan command `service bind9 restart`
+
+#### Loguetown
+
+Pada `script.sh` kita menambah command untuk agar dapat berjalan di port 5000
+```
+auto eth0
+iface eth0 inet dhcp '>/etc/network/interfaces
+
+export http_proxy="http://jualbelikapal.e11.com:5000"
+```
+
+lalu untuk mengaktifkan proxy maka jalankan command `export http_proxy="http://jualbelikapal.e11.com:5000"`
+
+kemudian untuk mengetahui status proxy kita jalankan command `env | grep -i proxy` untuk dapat memastikan proxy sudah berjalan di port 5000
+
+[![image.png](https://i.postimg.cc/pX5XG67t/image.png)](https://postimg.cc/561VjnbP)
+
 
 ### Soal 9
-Agar transaksi jual beli lebih aman dan pengguna website ada dua orang, proxy dipasang autentikasi user proxy dengan enkripsi MD5 dengan dua username, yaitu luffybelikapale11 dengan password luffy_e11 dan zorobelikapale11 dengan password zoro_yyy 
+Agar transaksi jual beli lebih aman dan pengguna website ada dua orang, proxy dipasang autentikasi user proxy dengan enkripsi MD5 dengan dua username, yaitu luffybelikapale11 dengan password luffy_e11 dan zorobelikapale11 dengan password zoro_e11 
+
+Solusinya yaitu:
+
+#### Water7
+ 
+Kita lakukan `apt-get update` dan `apt-get install apache2-utils`
+
+Selanjutnya lakukan command `htpasswd -cm /etc/squid/passwd luffybelikapale11`, `-c` untuk membuat file baru dan `m` yaitu melakukan enkripsi file dengan `md5`. 
+
+selanjutnya input password `luffye11`
+
+Untuk selanjutnya yaitu command `htpasswd -cm /etc/squid/passwd zorobelikapale11`. dan passwordnya `zoroe11`
+
+kemudian pada file `/etc/squid/squid.conf` dengan command berikut: 
+
+```
+http_port 5000
+visible_hostname jualbelikapal.e11.com
+auth_param basic program /usr/lib/squid/basic_ncsa_auth /etc/squid/passwd
+auth_param basic children 5
+auth_param basic realm Proxy
+auth_param basic credentialsttl 2 hours
+auth_param basic casesensitive on
+acl USERS proxy_auth REQUIRED
+```
+
+Selanjutnya Kita lakukan `service squid restart`
+
+
 
 ### Soal 10
 Transaksi jual beli tidak dilakukan setiap hari, oleh karena itu akses internet dibatasi hanya dapat diakses setiap hari Senin-Kamis pukul 07.00-11.00 dan setiap hari Selasa-Jum’at pukul 17.00-03.00 keesokan harinya (sampai Sabtu pukul 03.00)
 
+Untuk Solusi Soal ini maka:
+
+#### Water7
+
+Kita melakukan command pada `script.sh` yaitu:
+
+```
+echo '
+
+acl HARI_SATU time MTWH 07:00-11:00
+acl HARI_DUA time TWHF 17:00-24:00
+acl HARI_KETIGA time WHFA 00:00-03:00
+
+acl google dstdomain google.com
+http_access deny google
+deny_info 301:http://super.franky.e11.com%R google'>/etc/squid/acl.conf
+
+echo 'include /etc/squid/acl.conf
+http_port 5000
+```
+Sehingga File acl.conf terbentuk.
+
+Selanjutnya pada `/etc/squid/squid.conf` kita tambahkan command agar jadwal berjalan semestinya :
+
+```
+http_access allow HARI_SATU USERS
+http_access allow HARI_DUA USERS
+http_access allow HARI_KETIGA USERS
+```
+
+Kemudian lakukan `service squid restart`
+
+
 ### Soal 11
 Agar transaksi bisa lebih fokus berjalan, maka dilakukan redirect website agar mudah mengingat website transaksi jual beli kapal. Setiap mengakses google.com, akan diredirect menuju super.franky.e11.com dengan website yang sama pada soal shift modul 2. Web server super.franky.e11.com berada pada node Skypie
+
+Solusi untuk hal ini maka:
+
+#### Enieslobby
+
+pada  File `/etc/bind/named.conf.local` kita menambah command sebagai berikut:
+
+```
+zone "franky.e11.com" {
+        type master;
+        file "/etc/bind/kaizoku/franky.e11.com";
+};
+```
+Kemudian pada file  `/etc/bind/kaizoku/franky.e11.com` kita menambahkan command agar dapat melakukan redirect
+```
+$TTL    604800
+@       IN      SOA     franky.e11.com. root.franky.e11.com. (
+                              2         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      franky.e11.com.
+@       IN      A       192.205.3.69
+www     IN      CNAME   franky.e11.com.
+super   IN      A       192.205.3.69
+www.super       IN      A   192.205.3.69
+```
+
+Selajutnya lakukan `service bind9 restart`
+
+#### Skypie
+
+Kita lakukan Command pada `script.sh` agar dapat berjalan otomatis
+
+```
+echo 'auto eth0
+iface eth0 inet dhcp
+hwaddress ether 16:15:db:d5:a1:6a'>/etc/network/interfaces
+
+apt-get update
+apt-get install apache2 -y
+service apache2 start
+apt-get install wget
+apt-get install unzip
+
+
+cd /etc/apache2/sites-available
+cp 000-default.conf super.franky.e11.com.conf
+
+echo ' <VirtualHost *:80>
+       
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/super.franky.e11.com
+        ServerName super.franky.e11.com
+        serverAlias www.super.franky.e11.com 
+
+
+        <Directory /var/www/super.franky.e11.com>
+                Options +Indexes
+                AllowOverride All
+        </Directory>
+
+        <Directory /var/www/super.franky.e11.com/error>
+                Options -Indexes
+
+        </Directory>
+
+        <Directory /var/www/super.franky.e11.com/public/js>
+        Options +Indexes
+         </Directory>
+
+        Alias "/js" "/var/www/super.franky.e11.com/public/js"
+        ErrorDocument 404 /error/404.html
+
+</VirtualHost>
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+'>/etc/apache2/sites-available/super.franky.e11.com.conf
+cd
+cd super.franky
+cp -r error /var/www/super.franky.e11.com
+cp -r public /var/www/super.franky.e11.com
+cd
+cd /etc/apache2/sites-available
+a2ensite super.franky.e11.com.conf
+a2enmod rewrite
+cd
+service apache2 restart
+
+```
+
 
 ### Soal 12
 Saatnya berlayar! Luffy dan Zoro akhirnya memutuskan untuk berlayar untuk mencari harta karun di super.franky.e11.com. Tugas pencarian dibagi menjadi dua misi, Luffy bertugas untuk mendapatkan gambar (.png, .jpg), sedangkan Zoro mendapatkan sisanya. Karena Luffy orangnya sangat teliti untuk mencari harta karun, ketika ia berhasil mendapatkan gambar, ia mendapatkan gambar dan melihatnya dengan kecepatan 10 kbps
