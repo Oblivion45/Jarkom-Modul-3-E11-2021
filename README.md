@@ -209,7 +209,26 @@ Pada Loguetown, proxy harus bisa diakses dengan nama jualbelikapal.e11.com denga
 
 Untuk Solusi dalam Hal diatas maka kita akan melakukan beberapa config sebagai berikut:
 
-#### Water7
+#### Water7 
+
+Command di `.bashrc` sebagi berikut:
+```
+echo 'nameserver 192.168.122.1' > /etc/resolv.conf
+apt-get update
+apt-get install squid -y
+apt-get install apache2-utils -y
+bash script.sh
+pass.sh
+
+```
+
+Selanjutnya yaitu dengan melakukan konfigurasi `squid` pada file `etc/squid/squid.conf` dengan sebagai berikut:
+```
+
+
+```
+
+Selanjutnya melakukan restart squid dengan `service squid restart`
  
 
 ### Soal 9
