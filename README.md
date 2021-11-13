@@ -23,9 +23,13 @@ Untuk membuat Jipangu menjadi DHCP server, kita perlu menginstall isc-dhcp-serve
 
 ```apt-get install isc-dhcp-server```
 
-dan untuk membuat Water7 menjadi Proxy Server, maka kita perlu menginstall squid3 pada server Water7 menggunakan command :
+Kemudian untuk langkah selanjutnya akan dilanjutkan pada nomor yang akan datang.
+
+Untuk membuat Water7 menjadi Proxy Server, maka kita perlu menginstall squid3 pada server Water7 menggunakan command :
 
 ```apt-get install squid```
+
+Untuk kelanjutannya akan ada pada nomor selanjutnya.
 
 ### Soal 2
 Foosha sebagai DHCP Relay.
@@ -77,7 +81,7 @@ subnet 192.205.1.0 netmask 255.255.255.0 {
     range 192.205.1.150 192.205.1.169;
     option routers 192.205.1.1;
     option broadcast-address 192.205.1.255;
-    option domain-name-servers 192.205.2.2 ,192.168.122.1;
+    option domain-name-servers 192.205.2.2;
     default-lease-time 360;
     max-lease-time 7200;
 }
@@ -89,7 +93,7 @@ subnet 192.205.3.0 netmask 255.255.255.0 {
     range 192.205.3.30 192.205.3.50;
     option routers 192.205.3.1;
     option broadcast-address 192.205.3.255;
-    option domain-name-servers 192.205.2.2 ,192.168.122.1;
+    option domain-name-servers 192.205.2.2;
     default-lease-time 720;
     max-lease-time 7200;
 }
@@ -149,10 +153,13 @@ Client mendapatkan DNS dari EniesLobby dan client dapat terhubung dengan interne
 Untuk menjawab nomor 5, pada konfigurasi DHCP server di Jipangu, ada pada subnet 192.205.1.0 (Switch 1) dan 192.205.3.0 (Switch 3) pada bagian :
 
 ```
-option domain-name-servers 192.205.2.2 ,192.168.122.1;
+option domain-name-servers 192.205.2.2;
 ```
+Kemudian kita menambahkan DNS Forwarder seperti pada gambar berikut :
 
-Potongan source code tersebut akan menyebabkan client mendapat DNS pada EniesLobby dengan IP 192.205.2.4 dan dapat terhubung dengan internet melalui DNS tersebut.
+[![Whats-App-Image-2021-11-13-at-17-19-03.jpg](https://i.postimg.cc/s29Pd0Fn/Whats-App-Image-2021-11-13-at-17-19-03.jpg)](https://postimg.cc/940wybQT)
+
+Potongan source code tersebut akan menyebabkan client mendapat DNS pada EniesLobby dengan IP 192.205.2.2 dan dapat terhubung dengan internet melalui DNS tersebut.
 
 #### Soal 6
 Lama waktu DHCP server meminjamkan alamat IP kepada Client yang melalui Switch1 selama 6 menit sedangkan pada client yang melalui Switch3 selama 12 menit. Dengan waktu maksimal yang dialokasikan untuk peminjaman alamat IP selama 120 menit.
